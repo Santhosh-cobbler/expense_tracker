@@ -220,4 +220,4 @@ def debit_view():
     return render_template('debit-view.html',data=expense_details)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
