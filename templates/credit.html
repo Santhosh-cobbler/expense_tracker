@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* 1. Global Reset & Variables */
+        :root { 
+            --accent: #10b981; 
+            --bg: #064e3b; 
+            --text-dark: #1f2937;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+        }
+
+        * { box-sizing: border-box; }
+
+        body { 
+            background: var(--bg); 
+            color: white; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            margin: 0; 
+        }
+
+        /* 2. Card Layout */
+        .card { 
+            background: #ffffff; 
+            color: var(--text-dark); 
+            width: 95%; 
+            max-width: 400px; 
+            padding: 30px; 
+            border-radius: 24px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4); 
+        }
+
+        /* 3. Header & Right-Aligned Button Logic */
+        .header-flex {
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            width: 100%;
+            margin-bottom: 25px;
+        }
+
+        h2 { 
+            margin: 0; 
+            font-size: 1.4rem;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Top View Data Link Style */
+        .view-btn {
+            display: inline-block;
+            padding: 6px 12px; 
+            background: var(--accent);
+            color: white;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.75rem;
+            text-decoration: none;
+            transition: background 0.3s;
+            white-space: nowrap;
+        }
+
+        .view-btn:hover { background: #059669; }
+
+        /* 4. Form Components */
+        .input-group { margin-bottom: 18px; }
+        label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.85rem; color: var(--text-muted); }
+        input, select { 
+            width: 100%; 
+            padding: 12px; 
+            border: 2px solid var(--border); 
+            border-radius: 12px; 
+            font-size: 1rem; 
+            color: var(--text-dark);
+            transition: border-color 0.3s; 
+        }
+        input:focus, select:focus { border-color: var(--accent); outline: none; }
+
+        /* 5. Action Buttons Area */
+        .action-area {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn { 
+            width: 100%; 
+            padding: 14px; 
+            background: var(--accent); 
+            color: white; 
+            border: none; 
+            border-radius: 12px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            font-size: 1rem;
+            transition: opacity 0.2s;
+        }
+
+        /* Secondary View Button (for the bottom) */
+        .view-link-secondary {
+            display: block;
+            text-align: center;
+            padding: 10px;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+        
+        .view-link-secondary:hover {
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .btn:hover { opacity: 0.9; }
+
+        .back { 
+            display: block; 
+            text-align: center; 
+            margin-top: 20px; 
+            color: #9ca3af; 
+            text-decoration: none; 
+            font-size: 0.85rem; 
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header-flex">
+            <h2>Add Income</h2>
+        </div>
+
+        <form method="POST">
+            <div class="input-group">
+                <label>Source</label>
+                <input type="text" name="source" id="source" placeholder="e.g., Monthly Salary" required>
+            </div>
+            <div class="input-group">
+                <label>Amount (USD)</label>
+                <input type="number" step="0.01" name="amount" placeholder="0.00" required>
+            </div>
+            <div class="input-group">
+                <label>Deposit To</label>
+                <select name="account">
+                    <option>Bank Account</option>
+                    <option>Cash</option>
+                    <option>Digital Wallet</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Date</label>
+                <input type="date" name="date" required>
+            </div>
+
+            <div class="action-area">
+                <button type="submit" class="btn">Confirm Deposit</button>
+                <a href="{{url_for('credit_view')}}" class="view-link-secondary">Check History</a>
+            </div>
+
+            <a href="{{url_for('home')}}" class="back">← Cancel and Exit</a>
+        </form>
+    </div>
+</body>
+</html>

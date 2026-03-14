@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { background: #f3f4f6; font-family: sans-serif; margin: 0; padding: 20px; color: #1f2937; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .income-item { 
+            background: white; 
+            padding: 15px; 
+            border-radius: 12px; 
+            margin-bottom: 10px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            border-left: 5px solid #10b981;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .source-name { font-weight: bold; display: block; }
+        .date-text { font-size: 0.8rem; color: #6b7280; }
+        .amount-green { color: #059669; font-weight: 800; font-family: monospace; font-size: 1.1rem; }
+        .btn-home { background: #10b981; color: white; padding: 8px 15px; border-radius: 8px; text-decoration: none; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2 style="margin:0">Income Logs</h2>
+            <a href="{{url_for('home')}}" class="btn-home">Home</a>
+        </div>
+        
+        {% for i in data %}
+        <div class="income-item" style="display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #eee;">
+            <div>
+                <span class="source-name" style="display: block; font-weight: bold;">{{ i['source'] }}</span>
+                <span class="date-text" style="color: #666; font-size: 0.85em;">{{ i['date'] }}</span>
+            </div>
+            <div class="amount-green" style="color: #28a745; font-weight: bold;">
+                +${{ "%.2f"|format(i['amount']|float) }}
+            </div>
+        </div>
+        {% else %}
+        <div style="text-align: center; padding: 20px; color: #888;">
+            No income logs found.
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
