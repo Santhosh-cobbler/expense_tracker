@@ -1,2 +1,7 @@
+<<<<<<< HEAD
 .env
 venv
+=======
+venv/
+.env
+>>>>>>> 1459c023dd7337d5fe0bf161ecd010f702678a43
