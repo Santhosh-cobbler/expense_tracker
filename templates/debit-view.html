@@ -1,24 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { background: #0f172a; color: white; font-family: sans-serif; padding: 20px; }
+        body { background: #0f172a; color: white; font-family: 'Inter', sans-serif; padding: 20px; }
         .container { max-width: 500px; margin: 0 auto; }
-        .header { display: flex; justify-content: space-between; margin-bottom: 25px; }
+        
+        .header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 25px; 
+        }
+
+        /* Card container for each log entry */
         .expense-card { 
             background: #1e293b; 
-            padding: 15px; 
-            border-radius: 15px; 
+            padding: 16px; 
+            border-radius: 12px; 
             margin-bottom: 12px; 
             display: flex; 
             justify-content: space-between;
+            align-items: center; /* Vertically centers the text and the amount */
             border-right: 4px solid #f43f5e;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
-        .category-tag { background: #334155; font-size: 0.7rem; padding: 2px 8px; border-radius: 5px; color: #94a3b8; }
-        .item-title { display: block; font-weight: bold; margin-top: 5px; }
-        .amount-red { color: #fb7185; font-weight: bold; font-family: monospace; font-size: 1.1rem; align-self: center; }
-        .btn-back { color: #94a3b8; text-decoration: none; border: 1px solid #334155; padding: 5px 12px; border-radius: 8px; }
+
+        .details { display: flex; flex-direction: column; gap: 4px; }
+
+        .category-tag { 
+            background: #334155; 
+            font-size: 0.65rem; 
+            padding: 2px 8px; 
+            border-radius: 4px; 
+            color: #94a3b8; 
+            width: fit-content;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .item-title { font-weight: 600; font-size: 1.1rem; }
+        
+        .item-date { font-size: 0.75rem; color: #64748b; }
+
+        .amount-red { 
+            color: #fb7185; 
+            font-weight: 700; 
+            font-family: monospace; 
+            font-size: 1.2rem; 
+        }
+
+        .btn-back { 
+            color: #94a3b8; 
+            text-decoration: none; 
+            border: 1px solid #334155; 
+            padding: 6px 14px; 
+            border-radius: 8px; 
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+        .btn-back:hover { background: #1e293b; color: white; }
     </style>
 </head>
 <body>
@@ -27,22 +69,22 @@
             <h2 style="margin:0">Income Logs</h2>
             <a href="{{url_for('debit')}}" class="btn-back">← Back</a>
         </div>
+
+        {% for i in data %}
         <div class="expense-card">
-            {% for i in data %}
-            <div>
+            <div class="details">
                 <span class="category-tag">{{ i['category'] }}</span>
                 <span class="item-title">{{ i['item'] }}</span>
-                <span style="font-size: 0.75rem; color: #64748b;">{{ i['date'] }}</span>
+                <span class="item-date">{{ i['date'] }}</span>
             </div>
-            <div class="amount-red">-{{ i['amount'] }}</div>
+            <div class="amount-red">- {{ i['amount'] }}</div>
         </div>
         {% else %}
-        <div style="text-align: center; padding: 20px; color: #888;">
+        <div style="text-align: center; padding: 40px; color: #64748b;">
+            <div style="font-size: 2rem; margin-bottom: 10px;">📄</div>
             No income logs found.
         </div>
         {% endfor %}
     </div>
-        </div>
-
 </body>
 </html>
