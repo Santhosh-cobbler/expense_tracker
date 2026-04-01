@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Finance Dashboard</title>
+    <title>Finance Dashboard | Expense.io</title>
     <style>
         :root {
             --bg: #0f172a;
@@ -12,7 +12,9 @@
             --accent-red: #ef4444;
             --text-main: #f8fafc;
             --text-dim: #94a3b8;
+            --border: #334155;
         }
+
         body { 
             background-color: var(--bg); 
             color: var(--text-main); 
@@ -23,12 +25,14 @@
             align-items: center;
             min-height: 100vh;
         }
+
         .header {
             width: 100%;
             padding: 2rem 0;
             text-align: center;
             background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
         }
+
         .balance-chip {
             background: rgba(16, 185, 129, 0.1);
             border: 1px solid var(--accent-green);
@@ -39,72 +43,128 @@
             display: inline-block;
             margin-bottom: 10px;
         }
-        .container { width: 90%; max-width: 500px; padding: 20px; }
-        
-        /* Summary Stats */
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px; }
+
+        .container { width: 95%; max-width: 500px; padding: 20px; box-sizing: border-box; }
+
+        /* Balance Display */
+        .balance-card {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            padding: 30px 20px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 25px;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+        }
+        .balance-label { color: var(--text-dim); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
+        .balance-amount { font-size: 2.8rem; font-weight: 800; margin: 10px 0; color: var(--text-main); }
+
+        /* Stats Grid */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
         .stat-card { 
             background: var(--card-bg); 
-            padding: 20px; 
+            padding: 18px; 
             border-radius: 16px; 
-            border: 1px solid #334155;
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            border: 1px solid var(--border);
+            text-decoration: none;
+            transition: transform 0.2s;
         }
-        .stat-label { color: var(--text-dim); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
-        .stat-value { font-size: 1.5rem; font-weight: 700; margin-top: 8px; }
-        
+        .stat-card:hover { transform: translateY(-2px); }
+        .stat-label { color: var(--text-dim); font-size: 0.7rem; text-transform: uppercase; }
+        .stat-value { font-size: 1.2rem; font-weight: 700; margin-top: 5px; }
+
+        /* Filter Section */
+        .filter-section { margin-bottom: 20px; }
+        .styled-select {
+            width: 100%;
+            padding: 14px;
+            background: var(--card-bg);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 1rem;
+            appearance: none;
+            cursor: pointer;
+            outline: none;
+        }
+
         /* Action Buttons */
-        .nav-menu { display: grid; gap: 12px; }
+        .nav-menu { display: grid; gap: 10px; margin-bottom: 30px; }
         .nav-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
             background: var(--card-bg);
-            padding: 18px 25px;
+            padding: 15px 20px;
             border-radius: 12px;
             text-decoration: none;
             color: var(--text-main);
-            border: 1px solid #334155;
+            border: 1px solid var(--border);
             transition: all 0.2s ease;
         }
-        .nav-item:hover { border-color: #64748b; transform: scale(1.02); background: #263349; }
-        .icon-box { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-        .bg-green { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); }
-        .bg-red { background: rgba(239, 68, 68, 0.2); color: var(--accent-red); }
-        .bg-blue { background: rgba(59, 130, 246, 0.2); color: #3b82f6; }
+        .nav-item:hover { background: #263349; border-color: #475569; }
+        .icon-box { width: 35px; height: 35px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .bg-green { background: rgba(16, 185, 129, 0.15); color: var(--accent-green); }
+        .bg-red { background: rgba(239, 68, 68, 0.15); color: var(--accent-red); }
+
+        /* Recent Transactions */
+        .transaction-list { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+        .transaction-item {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--border);
+        }
+        .category-tag { font-size: 0.9rem; font-weight: 600; display: block; }
+        .date-tag { font-size: 0.7rem; color: var(--text-dim); }
     </style>
 </head>
 <body>
+
     <div class="header">
-        <span class="balance-chip">Active Session: {{user_name}}</span>
-        <h1 style="margin:0; font-weight: 800;">Expense.io</h1>
+        <span class="balance-chip">Welcome, {{user_name}}</span>
+        <h1 style="margin:0; font-weight: 800; letter-spacing: -1px;">Expense.io</h1>
     </div>
 
     <div class="container">
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-label">10-Day Income</div>
-                <div class="stat-value" style="color: var(--accent-green);">+ {{ credit_past }}</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">10-Day Spent</div>
-                <div class="stat-value" style="color: var(--accent-red);">- {{ debit_past }}</div>
-            </div>
+        
+        <div class="balance-card">
+            <div class="balance-label">Available Balance</div>
+            <div class="balance-amount">₹ {{ credit_past - debit_past }}</div>
         </div>
+
+        <div class="stats-grid">
+            <a href="{{ url_for('credit_view') }}" class="stat-card" style="text-decoration: none;">
+                <div class="stat-label">Income</div>
+                <div class="stat-value" style="color: var(--accent-green);">+ {{ credit_past }}</div>
+            </a>
+            <a href="{{ url_for('debit_view') }}" class="stat-card" style="text-decoration: none;">
+                <div class="stat-label">Spent</div>
+                <div class="stat-value" style="color: var(--accent-red);">- {{ debit_past }}</div>
+            </a>
+        </div>
+
 
         <div class="nav-menu">
             <a href="{{url_for('credit')}}" class="nav-item">
-                <div style="display:flex; align-items:center; gap:15px;">
+                <div style="display:flex; align-items:center; gap:12px;">
                     <div class="icon-box bg-green">↓</div>
                     <span>Add Income</span>
                 </div>
                 <span style="color: var(--text-dim)">+</span>
             </a>
             <a href="{{url_for('debit')}}" class="nav-item">
-                <div style="display:flex; align-items:center; gap:15px;">
+                <div style="display:flex; align-items:center; gap:12px;">
                     <div class="icon-box bg-red">↑</div>
                     <span>Add Expense</span>
                 </div>
                 <span style="color: var(--text-dim)">+</span>
             </a>
-            <hr style="border: 0; border-top: 1px solid #334155; margin: 10px 0;">
+        </div>
+
+    </div>
+</body>
+</html>
